@@ -1,17 +1,35 @@
+let cart = [];
+
+function saveCart(value, days=7) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `cart=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+}
+
 function init() {
   loadCatalogo();
+  cart = loadCart();
+  console.log('Carrito cargado:', cart);
   fetchCamisetas();
+}
+
+function loadCart(name = "cart") {
+    const cookieValue = document.cookie
+        .split("; ")
+        .find(c => c.startsWith(name + '='))
+        ?.split('=')[1] ?? null;
+
+    return cookieValue ? JSON.parse(decodeURIComponent(cookieValue)) : [];
 }
 
 async function loadCatalogo() {
   const productos = await fetchCamisetas();
   const contenedor = document.getElementById('catalogo');
-  let innner = '';
+  let inner = '';
   productos.forEach(p => {
-    innner += `
+    inner += `
         <div class="producto">
             <img src="${p.imagenes[p.colores[0]]}" alt="${p.nombre}" width="200">
-            <h3>${p.nombre}</h3>
+            <h3 id="nombre_${p.id}">${p.nombre}</h3>
 
             <label for="talla_${p.id}">Talla:</label>
             <select name="talla" id="talla_${p.id}">
@@ -26,14 +44,14 @@ async function loadCatalogo() {
             <label for="cantidad_${p.id}">Cantidad:</label>
             <input type="number" id="cantidad_${p.id}" name="cantidad" min="1" value="1"/>
 
-            <button type="button" onclick="addToCart()">Añadir al carrito</button>
+            <button type="button" onclick="addToCart('${p.id}')">Añadir al carrito</button>
 
             <p>${p.descripcion}</p>
-            <span>$${p.precioBase.toFixed(2)}</span>
+            <span id="precio_${p.id}">$${p.precioBase.toFixed(2)}</span>
         </div>
         `;
   });
-  contenedor.innerHTML = innner;
+  contenedor.innerHTML = inner;
 }
 
 async function fetchCamisetas() {
@@ -51,8 +69,29 @@ async function fetchCamisetas() {
   }
 }
 
-function addToCart() {
-  alert('Producto añadido al carrito');
+function addToCart(productoId) {
+  const nombre = document.getElementById(`nombre_${productoId}`).textContent;
+  const talla = document.getElementById(`talla_${productoId}`).value;
+  const color = document.getElementById(`color_${productoId}`).value;
+  const cantidad = parseInt(document.getElementById(`cantidad_${productoId}`).value, 10);
+  const precio = parseFloat(document.getElementById(`precio_${productoId}`).textContent.replace('$', ''));
+
+  const existingItem = cart.find(item =>
+    item.productoId === productoId &&
+    item.talla === talla &&
+    item.color === color
+  );
+
+  if (existingItem) {
+    existingItem.cantidad += cantidad;
+    console.log(`Producto repetido encontrado. Nueva cantidad: ${existingItem.cantidad}`);
+  } else {
+    cart.push({ productoId, nombre, talla, color, cantidad, precio });
+    console.log('Nuevo producto añadido al carrito.');
+  }
+
+  saveCart(JSON.stringify(cart));
+  console.log('Carrito actual:', cart);
 }
 
 function applyFilter() {

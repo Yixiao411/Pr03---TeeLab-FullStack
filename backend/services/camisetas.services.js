@@ -1,12 +1,7 @@
 import { camisetas } from '../data/camisetas.js';
-/*
-export function getAll(){
-    //... hace una copia
-    return camisetas.map(({ imagenes, tags, ...rest }) => rest);
-}
-*/
+
 export function getAll(filtros) {
-    let resultados = [...camisetas];
+    let resultados = [...camisetas];    //... hace una copia
 
     //FILTROS
     if (filtros.talla) {

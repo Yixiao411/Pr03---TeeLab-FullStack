@@ -55,5 +55,4 @@ const productosJSON = `[
 ]
 `;
 
-
 export const camisetas = JSON.parse(productosJSON);

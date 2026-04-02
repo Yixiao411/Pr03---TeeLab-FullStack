@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeeLab</title>
+</head>
+
+<body>
+    <h1>
+        Catalogo de Productos
+    </h1>
+
+    <aside>
+        <h2>Filtros</h2>
+        <label for="search">Buscar:</label>
+        <input type="text" id="search" name="search">
+
+        <label for="size">Talla:</label>
+        <select name="size" id="size">
+            <option value="">Todas</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+        </select>
+
+        <label for="color">Color:</label>
+        <select name="color" id="color">
+            <option value="">Todos</option>
+            <option value="blanco">Blanco</option>
+            <option value="negro">Negro</option>
+            <option value="gris">Gris</option>
+            <option value="mostaza">Mostaza</option>
+            <option value="azul">Azul</option>
+        </select>
+
+        <label for="orden">Ordenar por:</label>
+        <select name="orden" id="orden">
+            <option value="">Seleccionar</option>
+            <option value="nombre_asc">Ordenar por nombre A-Z</option>
+            <option value="nombre_desc">Ordenar por nombre Z-A</option>
+            <option value="precio_asc">Ordenar por precio menor a mayor</option>
+            <option value="precio_desc">Ordenar por precio mayor a menor</option>
+        </select>
+
+        <button type="button" id="filtrar" onclick="loadCatalogo()">Filtrar</button>
+
+    </aside>
+
+    <div id="catalogo">
+        <!-- Aquí se insertarán los productos -->
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

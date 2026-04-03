@@ -1,4 +1,5 @@
 let cart = [];
+let productos = [];
 
 function saveCart(value, days=7) {
     const expires = new Date(Date.now() + days * 864e5).toUTCString();
@@ -9,7 +10,6 @@ function init() {
   loadCatalogo();
   cart = loadCart();
   console.log('Carrito cargado:', cart);
-  fetchCamisetas();
 }
 
 function loadCart(name = "cart") {
@@ -22,13 +22,14 @@ function loadCart(name = "cart") {
 }
 
 async function loadCatalogo() {
-  const productos = await fetchCamisetas();
+  productos = await fetchCamisetas();
   const contenedor = document.getElementById('catalogo');
   let inner = '';
   productos.forEach(p => {
+    console.log('Producto cargado:', p);
     inner += `
         <div class="producto">
-            <img src="${p.imagenes[p.colores[0]]}" alt="${p.nombre}" width="200">
+            <img id="imagen_${p.id}" src="${p.imagenes[p.colores[0]]}" alt="${p.nombre}" width="200">
             <h3 id="nombre_${p.id}">${p.nombre}</h3>
 
             <label for="talla_${p.id}">Talla:</label>
@@ -82,11 +83,14 @@ function addToCart(productoId) {
     item.color === color
   );
 
+  const imagen = document.getElementById(`imagen_${productoId}`).src || '';
+
   if (existingItem) {
     existingItem.cantidad += cantidad;
+    existingItem.imagen = imagen;
     console.log(`Producto repetido encontrado. Nueva cantidad: ${existingItem.cantidad}`);
   } else {
-    cart.push({ productoId, nombre, talla, color, cantidad, precio });
+    cart.push({ productoId, nombre, talla, color, cantidad, precio, imagen });
     console.log('Nuevo producto añadido al carrito.');
   }
 

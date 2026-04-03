@@ -14,14 +14,17 @@ function renderCart() {
         cart = JSON.parse(cartData);
         let inner = "";
         cart.forEach(p => {
+            console.log('Producto en carrito:', p);
             inner += `
                 <div class="producto">
+                    <img src="${p.imagen || ''}" alt="${p.nombre}" width="200">
                     <h3>${p.nombre}</h3>
                     <p>Talla: ${p.talla}</p>
                     <p>Color: ${p.color}</p>
                     <p>Cantidad: ${p.cantidad}</p>
                     <p>Precio: $${p.precio.toFixed(2)}</p>
                     <p>Total: $${(p.precio * p.cantidad).toFixed(2)}</p>
+                    <button type="button" onclick="removeFromCart('${p.productoId}', '${p.talla}', '${p.color}')">Eliminar</button>
                 </div>
         `;
         });

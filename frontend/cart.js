@@ -10,10 +10,16 @@ function loadCart(name = "cart") {
 function renderCart() {
     const cartData = loadCart();
     const contenedor = document.getElementById('cart_section');
+
+    let countItems = 0;
+    let totalPrice = 0;
+
     if (cartData) {
         cart = JSON.parse(cartData);
         let inner = "";
         cart.forEach(p => {
+            countItems += p.cantidad;
+            totalPrice += p.precio * p.cantidad;
             console.log('Producto en carrito:', p);
             inner += `
                 <div class="producto">
@@ -28,8 +34,23 @@ function renderCart() {
                 </div>
         `;
         });
+        document.getElementById('total_items').textContent = `Total de artículos: ${countItems}`;
+        document.getElementById('total_price').textContent = `Precio total: $${totalPrice.toFixed(2)}`;
+
         contenedor.innerHTML = inner;
     } else {
         console.log('No hay carrito guardado, iniciando uno nuevo.');
     }
+}
+
+function removeFromCart(productoId, talla, color) {
+    cart = cart.filter(p => !(p.productoId === productoId && p.talla === talla && p.color === color));
+    saveCart(JSON.stringify(cart));
+    renderCart();
+}
+
+function removeAllFromCart() {
+    cart = [];
+    saveCart(JSON.stringify(cart));
+    renderCart();
 }

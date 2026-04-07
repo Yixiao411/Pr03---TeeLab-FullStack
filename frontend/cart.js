@@ -54,3 +54,14 @@ function removeAllFromCart() {
     saveCart(JSON.stringify(cart));
     renderCart();
 }
+
+function checkout() {
+    if (cart.length === 0) {
+        alert("El carrito está vacío. Agrega productos antes de finalizar la compra.");
+        return;
+    }
+    //lógica para enviar el pedido al servidor
+    window.location.href = "tiquet.html";
+    alert("¡Compra finalizada! Gracias por tu pedido.");
+    removeAllFromCart();
+}

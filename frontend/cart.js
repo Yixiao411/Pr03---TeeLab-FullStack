@@ -61,7 +61,30 @@ function checkout() {
         return;
     }
     //lógica para enviar el pedido al servidor
-    window.location.href = "tiquet.html";
+
+
+
+
+    window.location.href = "tiquet.html"; //navegar a la página de tiquet
     alert("¡Compra finalizada! Gracias por tu pedido.");
     removeAllFromCart();
+}
+
+
+async function pushTiquet() {
+  try {
+    const response = await fetch("http://localhost:3001/comandas", {
+        method: "POST",
+        body: JSON.stringify({ items: cart }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    if (!response.ok) {
+      throw new Error(`Error en la petición de tiquet ${response.status}`);
+    }
+    console.log('Respuesta de la API:', resultado);
+  } catch (error) {
+    console.error('Error al enviar los datos:', error);
+  }
 }

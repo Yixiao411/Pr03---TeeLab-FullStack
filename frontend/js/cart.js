@@ -22,16 +22,20 @@ function renderCart() {
             totalPrice += p.precio * p.cantidad;
             console.log('Producto en carrito:', p);
             inner += `
-                <div class="producto">
+                <article class="producto product-card">
                     <img src="${p.imagen || ''}" alt="${p.nombre}" width="200">
-                    <h3>${p.nombre}</h3>
-                    <p>Talla: ${p.talla}</p>
-                    <p>Color: ${p.color}</p>
-                    <p>Cantidad: ${p.cantidad}</p>
-                    <p>Precio: $${p.precio.toFixed(2)}</p>
-                    <p>Total: $${(p.precio * p.cantidad).toFixed(2)}</p>
-                    <button type="button" onclick="removeFromCart('${p.productoId}', '${p.talla}', '${p.color}')">Eliminar</button>
-                </div>
+                    <div class="producto-body">
+                        <h3>${p.nombre}</h3>
+                        <div class="producto-meta-grid">
+                            <span>Talla: ${p.talla}</span>
+                            <span>Color: ${p.color}</span>
+                            <span>Cantidad: ${p.cantidad}</span>
+                        </div>
+                        <p class="producto-price">Precio: $${p.precio.toFixed(2)}</p>
+                        <p class="producto-price-subtotal">Total: $${(p.precio * p.cantidad).toFixed(2)}</p>
+                        <button type="button" onclick="removeFromCart('${p.productoId}', '${p.talla}', '${p.color}')" class="button button-secondary">Eliminar</button>
+                    </div>
+                </article>
             `;
         });
         document.getElementById('total_items').textContent = `Total de artículos: ${countItems}`;
@@ -55,14 +59,19 @@ function removeAllFromCart() {
     renderCart();
 }
 
+function saveOrderToLocalStorage(order) {
+    localStorage.setItem('comanda', JSON.stringify(order));
+    localStorage.removeItem('comanda_enviada');
+}
+
 function checkout() {
     if (cart.length === 0) {
         alert("El carrito está vacío. Agrega productos antes de finalizar la compra.");
         return;
     }
-    //lógica para enviar el pedido al servidor
-    window.location.href = "tiquet.html"; //navegar a la página de tiquet
+    saveOrderToLocalStorage(cart);
     alert("¡Compra finalizada! Gracias por tu pedido.");
+    window.location.href = "tiquet.html";
     removeAllFromCart();
 }
 

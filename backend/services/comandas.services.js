@@ -28,7 +28,8 @@ export async function create(comanda){
         return { error : valida };
     }
 
-    const tiquetGenerado = generarTiquet(comanda);
+    const comandas = await getAll();
+    const tiquetGenerado = await generarTiquet(comanda, comandas);
 
     let newComanda = {
         id: tiquetGenerado.data.id,
@@ -42,7 +43,6 @@ export async function create(comanda){
     
     // Save to file
     try {
-        const comandas = await getAll();
         comandas.push(newComanda);
         await fs.writeFile(COMANDAS_FILE, JSON.stringify(comandas, null, 2));
     } catch (error) {
@@ -53,7 +53,7 @@ export async function create(comanda){
     return tiquetGenerado;
 }
 
-function generarTiquet(comanda){
+async function generarTiquet(comanda, existingComandas){
     let precio = 0;
     let compras = [];
 
@@ -74,8 +74,13 @@ function generarTiquet(comanda){
         compras.push(obj);
     }
 
+    let id;
+    do {
+        id = nextId();
+    } while (existingComandas.some(c => c.id === id));
+
     let tiquet = {
-        id: nextId(),
+        id,
         fecha: new Date(),
         estado: "recibida",
         items: compras,

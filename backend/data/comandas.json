@@ -1,90 +1,33 @@
 [
   {
     "id": "ORD-0001",
-    "fecha": "2026-04-09T16:48:48.960Z",
+    "fecha": "2026-04-09T17:18:14.434Z",
     "estado": "recibida",
     "cliente": {
-      "nombre": "Juan García",
-      "email": "juan@gmail.com"
+      "nombre": "Cliente TeeLab",
+      "email": "cliente@teelab.local"
     },
-    "direccion": "Calle Principal 123",
-    "items": [
-      {
-        "camisetaId": "TSH01",
-        "nombre": "MACACARENA",
-        "talla": "M",
-        "color": "negro",
-        "cantidad": 2,
-        "precioUnitario": 19.95,
-        "subtotal": 39.9
-      }
-    ],
-    "total": 39.9
-  },
-  {
-    "id": "ORD-0002",
-    "fecha": "2026-04-09T16:48:48.995Z",
-    "estado": "recibida",
-    "cliente": {
-      "nombre": "Test User",
-      "email": "test@gmail.com"
-    },
-    "direccion": "Calle Test",
-    "items": [
-      {
-        "camisetaId": "TSH01",
-        "nombre": "MACACARENA",
-        "talla": "M",
-        "color": "negro",
-        "cantidad": 1,
-        "precioUnitario": 19.95,
-        "subtotal": 19.95
-      }
-    ],
-    "total": 19.95
-  },
-  {
-    "id": "ORD-0003",
-    "fecha": "2026-04-09T16:48:49.017Z",
-    "estado": "recibida",
-    "cliente": {
-      "nombre": "User 1",
-      "email": "user1@gmail.com"
-    },
-    "direccion": "Dirección 1",
-    "items": [
-      {
-        "camisetaId": "TSH01",
-        "nombre": "MACACARENA",
-        "talla": "M",
-        "color": "negro",
-        "cantidad": 1,
-        "precioUnitario": 19.95,
-        "subtotal": 19.95
-      }
-    ],
-    "total": 19.95
-  },
-  {
-    "id": "ORD-0004",
-    "fecha": "2026-04-09T16:48:49.022Z",
-    "estado": "recibida",
-    "cliente": {
-      "nombre": "User 2",
-      "email": "user2@gmail.com"
-    },
-    "direccion": "Dirección 2",
+    "direccion": "Dirección de entrega TeeLab",
     "items": [
       {
         "camisetaId": "TSH02",
         "nombre": "NINETIES MODE",
-        "talla": "L",
+        "talla": "S",
         "color": "gris",
-        "cantidad": 2,
+        "cantidad": 1,
         "precioUnitario": 21.5,
-        "subtotal": 43
+        "subtotal": 21.5
+      },
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "S",
+        "color": "blanco",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
       }
     ],
-    "total": 43
+    "total": 41.45
   }
 ]

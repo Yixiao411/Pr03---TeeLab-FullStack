@@ -1,36 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeeLab - Cart</title>
+    <title>TeeLab - Carrito</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body onload="renderCart()">
-    
-    <header>
-        <h1>TeeLab</h1>
-        <nav>
-            <a href="index.html">Inicio</a>
-            <a href="cart.html">Carrito</a>
-        </nav>
-    </header>
+<body onload="renderCart()" class="bg-slate-50 text-slate-950 antialiased">
+    <div class="page-wrapper min-h-screen">
+        <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-50">
+            <div class="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-sm font-semibold text-slate-700">T</div>
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">TeeLab</p>
+                        <h1 class="text-2xl font-serif tracking-tight">Tu carrito</h1>
+                    </div>
+                </div>
+                <nav class="flex flex-wrap gap-4 text-sm uppercase tracking-[0.2em] text-slate-700">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                    <a href="cart.html" class="nav-link">Carrito</a>
+                </nav>
+            </div>
+        </header>
 
-    <h1>
-        Carrito de compras
-    </h1>
-    <section id="cart_section">
-        <!-- Aquí se mostrarán los productos añadidos al carrito -->
-    </section>
+        <main class="mx-auto max-w-7xl px-6 py-10">
+            <section class="mb-8 text-center">
+                <p class="text-xs uppercase tracking-[0.35em] text-slate-400 mb-4">Bolsa de Compra</p>
+                <h2 class="text-4xl font-serif">Tus selecciones</h2>
+            </section>
 
-    <aside>
-        <h2>Resumen del pedido</h2>
-        <p id="total_items">Total de artículos: 0</p>
-        <p id="total_price">Precio total: $0.00</p>
-        <button type="button" id="checkout" onclick="checkout()">Finalizar compra</button>
-        <button type="button" id="clear_cart" onclick="removeAllFromCart()">Vaciar carrito</button>
-    </aside>
+            <div class="grid gap-8 lg:grid-cols-[1.4fr_0.8fr] items-start">
+                <section id="cart_section" class="space-y-6"></section>
+
+                <aside class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 class="text-sm uppercase tracking-[0.35em] text-slate-400 mb-6">Resumen del pedido</h3>
+                    <div class="space-y-4 text-slate-700">
+                        <p id="total_items" class="text-sm">Total de artículos: 0</p>
+                        <p id="total_price" class="text-2xl font-serif">Precio total: 0.00€</p>
+                    </div>
+                    <div class="mt-8 grid gap-4">
+                        <button type="button" id="checkout" onclick="checkout()" class="button w-full">Finalizar compra</button>
+                        <button type="button" id="clear_cart" onclick="removeAllFromCart()" class="button button-secondary w-full">Vaciar carrito</button>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
 
     <script src="js/cart-utils.js"></script>
     <script src="js/cart.js"></script>

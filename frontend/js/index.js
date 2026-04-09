@@ -13,23 +13,33 @@ async function loadCatalogo() {
   let inner = '';
   productos.forEach(p => {
     inner += `
-        <div class="producto">
+        <article class="producto product-card">
             <img id="imagen_${p.id}" src="${p.imagenes[p.colores[0]]}" alt="${p.nombre}" width="200">
-            <h3 id="nombre_${p.id}">${p.nombre}</h3>
-            <label for="talla_${p.id}">Talla:</label>
-            <select name="talla" id="talla_${p.id}">
-                ${p.tallas.map(talla => `<option value="${talla}">${talla}</option>`).join('')}
-            </select>
-            <label for="color_${p.id}">Color:</label>
-            <select name="color" id="color_${p.id}">
-                ${p.colores.map(color => `<option value="${color}">${color}</option>`).join('')}
-            </select>
-            <label for="cantidad_${p.id}">Cantidad:</label>
-            <input type="number" id="cantidad_${p.id}" name="cantidad" min="1" value="1"/>
-            <button type="button" onclick="addToCart('${p.id}')">Añadir al carrito</button>
-            <p>${p.descripcion}</p>
-            <span id="precio_${p.id}">$${p.precioBase.toFixed(2)}</span>
-        </div>
+            <div class="producto-body">
+                <h3 id="nombre_${p.id}">${p.nombre}</h3>
+                <p class="producto-description">${p.descripcion}</p>
+                <div class="producto-meta">
+                    <label for="talla_${p.id}">Talla:</label>
+                    <select name="talla" id="talla_${p.id}" class="form-select">
+                        ${p.tallas.map(talla => `<option value="${talla}">${talla}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="producto-meta">
+                    <label for="color_${p.id}">Color:</label>
+                    <select name="color" id="color_${p.id}" class="form-select">
+                        ${p.colores.map(color => `<option value="${color}">${color}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="producto-meta">
+                    <label for="cantidad_${p.id}">Cantidad:</label>
+                    <input type="number" id="cantidad_${p.id}" name="cantidad" min="1" value="1" class="form-input"/>
+                </div>
+                <div class="producto-price-row">
+                    <span class="producto-price" id="precio_${p.id}">$${p.precioBase.toFixed(2)}</span>
+                    <button type="button" onclick="addToCart('${p.id}')" class="button">Añadir al carrito</button>
+                </div>
+            </div>
+        </article>
         `;
   });
   contenedor.innerHTML = inner;

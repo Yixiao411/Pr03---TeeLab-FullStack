@@ -195,6 +195,7 @@ function renderOrderItems(items, callback) {
 function appendBackButton(container) {
     const button = document.createElement('button');
     button.type = 'button';
+    button.className = 'button';
     button.textContent = 'Volver al inicio';
     button.addEventListener('click', () => {
         window.location.href = 'index.html';

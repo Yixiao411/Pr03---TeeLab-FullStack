@@ -1,15 +1,26 @@
 import * as camisetasService from '../services/camisetas.services.js';
-import { comandas, nextId } from '../data/comandas.js';
+import { nextId } from '../data/comandas.js';
+import fs from 'fs/promises';
+import path from 'path';
 
-export function getAll(){
-    return comandas;
+const COMANDAS_FILE = path.join(process.cwd(), 'data', 'comandas.json');
+
+export async function getAll(){
+    try {
+        const data = await fs.readFile(COMANDAS_FILE, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        // If file doesn't exist, return empty array
+        return [];
+    }
 }
 
-export function getByID(id){
+export async function getByID(id){
+    const comandas = await getAll();
     return comandas.find(c => c.id == id);
 }
 
-export function create(comanda){
+export async function create(comanda){
     const camisetas = camisetasService.getAll({});
     const valida = validarPedido(comanda, camisetas);
 
@@ -29,7 +40,15 @@ export function create(comanda){
         total: tiquetGenerado.data.total     
     };
     
-    comandas.push(newComanda);
+    // Save to file
+    try {
+        const comandas = await getAll();
+        comandas.push(newComanda);
+        await fs.writeFile(COMANDAS_FILE, JSON.stringify(comandas, null, 2));
+    } catch (error) {
+        console.error('Error saving order to file:', error);
+        return { error: 'Error saving order' };
+    }
 
     return tiquetGenerado;
 }

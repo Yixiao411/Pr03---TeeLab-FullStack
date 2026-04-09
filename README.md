@@ -1,2 +1,71 @@
-# Pr03---TeeLab-FullStack
-Este es un proyecto de tienda de ropa en línea completamente funcional, diseñado para demostrar la integración de un ecosistema Fullstack. La aplicación permite navegar por productos, gestionar el carrito de compras y manejar la persistencia de datos mediante una API REST propia.
+# TeeLab - Exclusive Apparel
+
+Tienda online de camisetas exclusivas con estilo moderno y sofisticado.
+
+## Tecnologias
+
+- **Frontend**: HTML5, CSS (Tailwind CSS, Fuentes Google), JavaScript vanilla
+- **Backend**: Node.js con Express.js
+- **Testing**: Jest con Supertest
+
+## Estructura del Proyecto
+
+```
+Pr03---TeeLab-FullStack/
+├── frontend/               # Interfaz de usuario
+│   ├── index.html         # Pagina principal del catalogo
+│   ├── cart.html          # Pagina del carrito
+│   ├── tiquet.html        # Pagina de confirmacion
+│   ├── css/style.css      # Estilos personalizados
+│   ├── js/                # Logica frontend
+│   │   ├── index.js       # Catalogo y filtros
+│   │   ├── cart.js        # Gestion del carrito
+│   │   ├── cart-utils.js  # Utilidades del carrito
+│   │   └── tiquet.js      # Generacion de tickets
+│   └── img/               # Imagenes de productos
+├── backend/                # API REST
+│   ├── server.js          # Servidor Express
+│   ├── controllers/       # Logica de negocio
+│   ├── routes/            # Definicion de rutas API
+│   ├── services/          # Servicios de datos
+│   ├── data/              # Datos JSON (productos y comandas)
+│   ├── tests/             # Pruebas unitarias
+│   ├── package.json
+│   └── jest.config.js
+└── README.md
+```
+
+## API Endpoints
+
+### Camisetas
+| Metodo | Ruta              | Descripcion              |
+|--------|-------------------|--------------------------|
+| GET    | /camisetas        | Listar todas las camisetas |
+| GET    | /camisetas/:id    | Obtener una camiseta     |
+
+### Comandas
+| Metodo | Ruta              | Descripcion              |
+|--------|-------------------|--------------------------|
+| GET    | /comandas         | Listar comandas          |
+| GET    | /comandas/:id     | Obtener una comanda      |
+| POST   | /comandas         | Crear nueva comanda      |
+| DELETE | /comandas/:id     | Eliminar comanda         |
+
+## Instalacion y Uso
+
+```bash
+# Backend
+cd backend
+npm install
+npm run dev      # Desarrollo (puerto 3001)
+npm start        # Produccion
+npm test         # Ejecutar pruebas
+```
+
+## Funcionalidades
+
+- Catalogo de camisetas con filtros (buscar, talla, color)
+- Ordenamiento por nombre y precio
+- Carrito de compras persistente
+- Gestion de comandas (pedidos)
+- Generacion de tickets de compra

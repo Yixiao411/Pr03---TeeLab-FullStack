@@ -1,0 +1,184 @@
+2025-2026 - M09 - Pr03: Full Stack
+Alicia Vázquez - alicia.vazquez@itb.cat
+
+Práctica 3: TeeLab FullStack (Frontend + Backend)
+
+Esta práctica es frontend + backend + almacenamiento + comunicación + asincronía.
+Es la práctica más importante del módulo porque simula una aplicación real, a partir de aquí todo será con el objetivo de mejorar y “securizar” este trabajo.
+
+TeeLab es una micro-tienda donde se venden camisetas con diseños artísticos.
+
+En la práctica anterior hemos construido la API REST que permite:
+
+Consultar camisetas
+Consultar detalle
+Enviar comandas
+Obtener tickets
+
+Ahora debemos construir la aplicación web que consume esta API.
+
+El HTML y CSS se puede generar con ayuda de IA, pero toda la lógica debe estar programada en JavaScript por vosotros.
+
+La aplicación debe comunicarse con el servidor mediante fetch + async/await, guardar información en WebStorage o Cookies, y gestionar estado de usuario y carrito.
+
+1 - Estructura del proyecto
+
+El proyecto tendrá dos partes:
+
+/frontend (el diseño de la práctica 3)
+/backend (la API de la práctica 2)
+
+El frontend debe ejecutarse con Live Server y el backend con Express y Node.
+
+La comunicación entre ambos se hará mediante fetch y será necesario tener CORS activado en el servidor.
+
+2 - Página principal (catálogo)
+
+Al cargar la página:
+
+Se debe llamar a la API: GET /api/camisetas
+Se deben mostrar todas las camisetas en pantalla
+
+Seguiremos la idea de diseño realizado en la Pr01, aunque puedes mejorarlo o cambiarlo a tu antojo.
+
+Cada producto será un article con:
+
+Imagen
+Nombre
+Descripción
+Precio
+Selector de talla
+Selector de color
+Selector de cantidad
+Botón Añadir al carrito
+
+Directrices:
+
+Uso obligatorio de fetch con async/await
+Uso obligatorio de funciones
+No se permite hacer todo el DOM en una sola función
+Debe existir una función init()
+
+2.1 - Filtros
+
+La página debe permitir:
+
+Filtrar por talla
+Filtrar por color
+Buscar por texto
+Ordenar por precio o nombre
+
+Cuando el usuario cambie un filtro:
+
+Se debe volver a llamar a la API con query params
+Ejemplo: /api/camisetas?talla=M&color=negro&sort=precio_asc
+
+No se pueden filtrar los datos en el frontend.
+
+3 - Carrito (WebStorage)
+
+Cuando el usuario pulse “Añadir al carrito”:
+
+El producto se añade a un carrito
+El carrito se guarda en WebStorage o Cookie
+El carrito debe persistir aunque el usuario recargue la página
+
+Estructura sugerida del carrito:
+
+[
+{
+"camisetaId": "TSH01",
+"nombre": "MACACARENA",
+"talla": "M",
+"color": "negro",
+"cantidad": 2,
+"precio": 19.95
+}
+]
+
+Funciones obligatorias:
+
+addToCart()
+saveCart()
+loadCart()
+renderCart()
+
+3.1 - Página carrito
+
+Debe mostrar:
+
+Lista de productos
+Cantidad
+Precio
+Subtotal por línea
+Total
+Botón Eliminar producto
+Botón Vaciar carrito
+Botón Finalizar compra
+
+El carrito debe leerse desde la persistencia elegida.
+
+4 - Enviar comanda
+
+Cuando el usuario pulse Finalizar compra:
+
+Se debe enviar el carrito a la API
+POST /api/comandas
+
+Se deben enviar (fake → constante):
+
+Cliente (nombre + email)
+Dirección
+Items del carrito
+
+Si la comanda es correcta:
+
+La API devolverá un ticket
+Se debe mostrar el ticket en pantalla
+Se debe vaciar el carrito
+Se debe guardar el orderId en webStorage o cookie
+
+4.1 - Página ticket
+
+Debe mostrar:
+
+ID pedido
+Fecha
+Estado
+Líneas de pedido
+Total
+
+El ticket se debe recuperar desde la persistencia.
+
+5 - Requisitos técnicos obligatorios
+
+La práctica debe usar:
+
+fetch
+async/await
+webStorage o cookies
+Manejo de errores (try/catch)
+Funciones separadas (máx. 15 líneas)
+init() como punto de entrada
+Comunicación real con la API
+CORS funcionando
+
+Se pueden añadir mejoras y funcionalidades extra.
+
+Entrega
+
+Debe entregarse:
+
+Carpeta frontend
+Carpeta backend
+README con:
+Cómo arrancar backend
+Cómo arrancar frontend
+Endpoints utilizados
+
+Vídeo de 1-3 minutos mostrando:
+
+Catálogo
+Añadir al carrito
+Finalizar compra
+Ticket

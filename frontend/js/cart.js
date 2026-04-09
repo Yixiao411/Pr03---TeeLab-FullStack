@@ -32,7 +32,7 @@ function renderCart() {
                     <p>Total: $${(p.precio * p.cantidad).toFixed(2)}</p>
                     <button type="button" onclick="removeFromCart('${p.productoId}', '${p.talla}', '${p.color}')">Eliminar</button>
                 </div>
-        `;
+            `;
         });
         document.getElementById('total_items').textContent = `Total de artículos: ${countItems}`;
         document.getElementById('total_price').textContent = `Precio total: $${totalPrice.toFixed(2)}`;
@@ -61,15 +61,10 @@ function checkout() {
         return;
     }
     //lógica para enviar el pedido al servidor
-
-
-
-
     window.location.href = "tiquet.html"; //navegar a la página de tiquet
     alert("¡Compra finalizada! Gracias por tu pedido.");
     removeAllFromCart();
 }
-
 
 async function pushTiquet() {
   try {
@@ -83,6 +78,7 @@ async function pushTiquet() {
     if (!response.ok) {
       throw new Error(`Error en la petición de tiquet ${response.status}`);
     }
+    const resultado = await response.json();
     console.log('Respuesta de la API:', resultado);
   } catch (error) {
     console.error('Error al enviar los datos:', error);

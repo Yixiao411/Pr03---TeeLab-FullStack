@@ -1,0 +1,5 @@
+/* Estilos básicos */
+body {font-family: Arial, sans-serif; margin:0; padding:0;}
+header, footer {background:#333;color:#fff;padding:1rem;}
+main {padding:1rem;}
+.article {border:1px solid #ccc; padding:1rem; margin:0.5rem;}

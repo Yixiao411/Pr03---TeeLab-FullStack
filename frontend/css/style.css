@@ -91,6 +91,11 @@ button {
     border: 1px solid var(--border);
 }
 
+.button-secondary:hover {
+    background: #c5c5c5;
+    transform: translateY(-1px);
+}
+
 .page-wrapper {
     min-height: 100vh;
 }

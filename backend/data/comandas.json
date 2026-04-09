@@ -29,5 +29,300 @@
       }
     ],
     "total": 41.45
+  },
+  {
+    "id": "ORD-0002",
+    "fecha": "2026-04-09T17:25:03.066Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Cliente TeeLab",
+      "email": "cliente@teelab.local"
+    },
+    "direccion": "Dirección de entrega TeeLab",
+    "items": [
+      {
+        "camisetaId": "TSH02",
+        "nombre": "NINETIES MODE",
+        "talla": "S",
+        "color": "gris",
+        "cantidad": 1,
+        "precioUnitario": 21.5,
+        "subtotal": 21.5
+      }
+    ],
+    "total": 21.5
+  },
+  {
+    "id": "ORD-0003",
+    "fecha": "2026-04-09T17:40:35.814Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Cliente TeeLab",
+      "email": "cliente@teelab.local"
+    },
+    "direccion": "Dirección de entrega TeeLab",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "S",
+        "color": "blanco",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      },
+      {
+        "camisetaId": "TSH02",
+        "nombre": "NINETIES MODE",
+        "talla": "S",
+        "color": "gris",
+        "cantidad": 1,
+        "precioUnitario": 21.5,
+        "subtotal": 21.5
+      }
+    ],
+    "total": 41.45
+  },
+  {
+    "id": "ORD-0004",
+    "fecha": "2026-04-09T17:45:04.461Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Cliente TeeLab",
+      "email": "cliente@teelab.local"
+    },
+    "direccion": "Dirección de entrega TeeLab",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "S",
+        "color": "blanco",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
+  },
+  {
+    "id": "ORD-0005",
+    "fecha": "2026-04-09T17:51:03.585Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Cliente TeeLab",
+      "email": "cliente@teelab.local"
+    },
+    "direccion": "Dirección de entrega TeeLab",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "S",
+        "color": "blanco",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
+  },
+  {
+    "id": "ORD-0006",
+    "fecha": "2026-04-09T17:54:24.658Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Juan García",
+      "email": "juan@gmail.com"
+    },
+    "direccion": "Calle Principal 123",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "M",
+        "color": "negro",
+        "cantidad": 2,
+        "precioUnitario": 19.95,
+        "subtotal": 39.9
+      }
+    ],
+    "total": 39.9
+  },
+  {
+    "id": "ORD-0007",
+    "fecha": "2026-04-09T17:54:24.694Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Test User",
+      "email": "test@gmail.com"
+    },
+    "direccion": "Calle Test",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "M",
+        "color": "negro",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
+  },
+  {
+    "id": "ORD-0008",
+    "fecha": "2026-04-09T17:54:24.712Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "User 1",
+      "email": "user1@gmail.com"
+    },
+    "direccion": "Dirección 1",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "M",
+        "color": "negro",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
+  },
+  {
+    "id": "ORD-0009",
+    "fecha": "2026-04-09T17:54:24.723Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "User 2",
+      "email": "user2@gmail.com"
+    },
+    "direccion": "Dirección 2",
+    "items": [
+      {
+        "camisetaId": "TSH02",
+        "nombre": "NINETIES MODE",
+        "talla": "L",
+        "color": "gris",
+        "cantidad": 2,
+        "precioUnitario": 21.5,
+        "subtotal": 43
+      }
+    ],
+    "total": 43
+  },
+  {
+    "id": "ORD-0010",
+    "fecha": "2026-04-09T17:57:48.506Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Cliente TeeLab",
+      "email": "cliente@teelab.local"
+    },
+    "direccion": "Dirección de entrega TeeLab",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "S",
+        "color": "blanco",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
+  },
+  {
+    "id": "ORD-0011",
+    "fecha": "2026-04-09T18:00:33.853Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Juan García",
+      "email": "juan@gmail.com"
+    },
+    "direccion": "Calle Principal 123",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "M",
+        "color": "negro",
+        "cantidad": 2,
+        "precioUnitario": 19.95,
+        "subtotal": 39.9
+      }
+    ],
+    "total": 39.9
+  },
+  {
+    "id": "ORD-0012",
+    "fecha": "2026-04-09T18:00:33.887Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "Test User",
+      "email": "test@gmail.com"
+    },
+    "direccion": "Calle Test",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "M",
+        "color": "negro",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
+  },
+  {
+    "id": "ORD-0013",
+    "fecha": "2026-04-09T18:00:33.906Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "User 1",
+      "email": "user1@gmail.com"
+    },
+    "direccion": "Dirección 1",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "M",
+        "color": "negro",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
+  },
+  {
+    "id": "ORD-0014",
+    "fecha": "2026-04-09T18:00:33.916Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "User 2",
+      "email": "user2@gmail.com"
+    },
+    "direccion": "Dirección 2",
+    "items": [
+      {
+        "camisetaId": "TSH02",
+        "nombre": "NINETIES MODE",
+        "talla": "L",
+        "color": "gris",
+        "cantidad": 2,
+        "precioUnitario": 21.5,
+        "subtotal": 43
+      }
+    ],
+    "total": 43
   }
 ]

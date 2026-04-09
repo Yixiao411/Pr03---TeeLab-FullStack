@@ -11,40 +11,58 @@ function renderCart() {
     const cartData = loadCart();
     const contenedor = document.getElementById('cart_section');
 
+    if (!cartData) {
+        console.log('No hay carrito guardado, iniciando uno nuevo.');
+        return;
+    }
+
+    cart = JSON.parse(cartData);
+    const { countItems, totalPrice, inner } = buildCartContent(cart);
+    setCartTotals(countItems, totalPrice);
+    contenedor.innerHTML = inner;
+}
+
+function buildCartContent(cart) {
     let countItems = 0;
     let totalPrice = 0;
+    let inner = "";
 
-    if (cartData) {
-        cart = JSON.parse(cartData);
-        let inner = "";
-        cart.forEach(p => {
-            countItems += p.cantidad;
-            totalPrice += p.precio * p.cantidad;
-            console.log('Producto en carrito:', p);
-            inner += `
-                <article class="producto product-card">
-                    <img src="${p.imagen || ''}" alt="${p.nombre}" width="200">
-                    <div class="producto-body">
-                        <h3>${p.nombre}</h3>
-                        <div class="producto-meta-grid">
-                            <span>Talla: ${p.talla}</span>
-                            <span>Color: ${p.color}</span>
-                            <span>Cantidad: ${p.cantidad}</span>
-                        </div>
-                        <p class="producto-price">Precio: $${p.precio.toFixed(2)}</p>
-                        <p class="producto-price-subtotal">Total: $${(p.precio * p.cantidad).toFixed(2)}</p>
-                        <button type="button" onclick="removeFromCart('${p.productoId}', '${p.talla}', '${p.color}')" class="button button-secondary">Eliminar</button>
+    cart.forEach(p => {
+        countItems += p.cantidad;
+        totalPrice += p.precio * p.cantidad;
+        console.log('Producto en carrito:', p);
+        inner += buildCartItemHTML(p);
+    });
+
+    return { countItems, totalPrice, inner };
+}
+
+function buildCartItemHTML(p) {
+    return `
+        <article class="cart-item">
+            <img src="${p.imagen || ''}" alt="${p.nombre}" width="150">
+            <div class="producto-body">
+                <h3>${p.nombre}</h3>
+                <div class="producto-meta-grid">
+                    <div class="item-details">
+                        <span>Talla: ${p.talla}</span>
+                        <span>Color: ${p.color}</span>
+                        <span>Cantidad: ${p.cantidad}</span>
                     </div>
-                </article>
-            `;
-        });
-        document.getElementById('total_items').textContent = `Total de artículos: ${countItems}`;
-        document.getElementById('total_price').textContent = `Precio total: $${totalPrice.toFixed(2)}`;
+                    <div class="price-info">
+                        <span class="producto-price">Precio: $${p.precio.toFixed(2)}</span>
+                        <span class="producto-price-subtotal">Total: $${(p.precio * p.cantidad).toFixed(2)}</span>
+                    </div>
+                </div>
+                <button type="button" onclick="removeFromCart('${p.productoId}', '${p.talla}', '${p.color}')" class="button button-secondary">Eliminar</button>
+            </div>
+        </article>
+    `;
+}
 
-        contenedor.innerHTML = inner;
-    } else {
-        console.log('No hay carrito guardado, iniciando uno nuevo.');
-    }
+function setCartTotals(countItems, totalPrice) {
+    document.getElementById('total_items').textContent = `Total de artículos: ${countItems}`;
+    document.getElementById('total_price').textContent = `Precio total: $${totalPrice.toFixed(2)}`;
 }
 
 function removeFromCart(productoId, talla, color) {

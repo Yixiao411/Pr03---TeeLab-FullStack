@@ -217,12 +217,13 @@ async function sendComandaIfNeeded(comanda) {
 }
 
 function buildOrderPayload(comanda) {
+    const clienteData = loadClienteData();
     return {
         cliente: {
-            nombre: 'Cliente TeeLab',
-            email: 'cliente@teelab.local'
+            nombre: clienteData.nombre,
+            email: clienteData.email
         },
-        direccion: 'Dirección de entrega TeeLab',
+        direccion: clienteData.direccion,
         items: comanda.map(item => ({
             camisetaId: item.productoId,
             talla: item.talla,
@@ -230,6 +231,27 @@ function buildOrderPayload(comanda) {
             cantidad: item.cantidad
         }))
     };
+}
+
+function loadClienteData() {
+    const stored = localStorage.getItem('cliente');
+    if (!stored) {
+        return {
+            nombre: 'Cliente TeeLab',
+            email: 'cliente@teelab.local',
+            direccion: 'Dirección de entrega TeeLab'
+        };
+    }
+    try {
+        return JSON.parse(stored);
+    } catch (error) {
+        console.error('Error al parsear datos del cliente:', error);
+        return {
+            nombre: 'Cliente TeeLab',
+            email: 'cliente@teelab.local',
+            direccion: 'Dirección de entrega TeeLab'
+        };
+    }
 }
 
 function sendOrderRequest(payload) {
@@ -253,6 +275,7 @@ function handleOrderResponse(resultado) {
     console.log('Respuesta de la API:', resultado);
     localStorage.setItem(LOCAL_STORAGE_SENT_FLAG, 'true');
     localStorage.setItem(LOCAL_STORAGE_COMANDA_ID, resultado.tiquet.id);
+    localStorage.removeItem('cliente');
 }
 
 initTiquet();

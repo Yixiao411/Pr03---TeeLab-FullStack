@@ -102,8 +102,13 @@ btnCancelar.addEventListener("click", () => {
 formulario.addEventListener("submit", (e) => {
     e.preventDefault();
     const datos = new FormData(formulario);
-    console.log("Nombre:", datos.get("nombre"));
-    console.log("Email:", datos.get("email"));
+    const clienteData = {
+        nombre: datos.get("nombre"),
+        email: datos.get("email"),
+        direccion: datos.get("direccion")
+    };
+    console.log("Cliente:", clienteData);
+    localStorage.setItem('cliente', JSON.stringify(clienteData));
     modal.close();
     formulario.reset();
     checkout();

@@ -66,6 +66,28 @@ function addToCart(productoId) {
   if(existing){ existing.cantidad+=cantidad; existing.imagen=imagen; }
   else{ cart.push({productoId,nombre,talla,color,cantidad,precio,imagen}); }
   saveCart(JSON.stringify(cart));
+  showToast('Producto añadido al carrito');
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  Object.assign(toast.style, {
+    position: 'fixed',
+    bottom: '1.5rem',
+    right: '1.5rem',
+    padding: '0.75rem 1.25rem',
+    backgroundColor: '#1e293b',
+    color: '#f8fafc',
+    borderRadius: '0.5rem',
+    fontSize: '0.875rem',
+    fontFamily: 'Inter, sans-serif',
+    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+    zIndex: 9999,
+    transition: 'opacity 0.3s ease'
+  });
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 1000);
 }
 
 function applyFilter(){

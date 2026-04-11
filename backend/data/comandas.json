@@ -1,0 +1,24 @@
+[
+  {
+    "id": "ORD-0001",
+    "fecha": "2026-04-11T13:50:08.061Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "1111",
+      "email": "www.yixiaoxu@gmail.com"
+    },
+    "direccion": "aa",
+    "items": [
+      {
+        "camisetaId": "TSH02",
+        "nombre": "NINETIES MODE",
+        "talla": "S",
+        "color": "gris",
+        "cantidad": 1,
+        "precioUnitario": 21.5,
+        "subtotal": 21.5
+      }
+    ],
+    "total": 21.5
+  }
+]

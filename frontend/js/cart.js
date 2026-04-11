@@ -10,16 +10,39 @@ function loadCart(name = "cart") {
 function renderCart() {
     const cartData = loadCart();
     const contenedor = document.getElementById('cart_section');
+    const cartGrid = document.getElementById('cart_grid');
+    const cartSummary = document.getElementById('cart_summary');
 
     if (!cartData) {
         console.log('No hay carrito guardado, iniciando uno nuevo.');
+        showEmptyCart(cartGrid, cartSummary);
         return;
     }
 
     cart = JSON.parse(cartData);
+
+    if (cart.length === 0) {
+        showEmptyCart(cartGrid, cartSummary);
+        setCartTotals(0, 0);
+        return;
+    }
+
     const { countItems, totalPrice, inner } = buildCartContent(cart);
     setCartTotals(countItems, totalPrice);
     contenedor.innerHTML = inner;
+    cartGrid.className = 'grid gap-8 lg:grid-cols-[1.4fr_0.8fr] items-start';
+    cartSummary.className = 'rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm';
+}
+
+function showEmptyCart(cartGrid, cartSummary) {
+    const contenedor = document.getElementById('cart_section');
+    contenedor.innerHTML = '';
+    cartGrid.className = 'flex justify-center';
+    cartSummary.className = 'rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm text-center';
+    cartSummary.innerHTML = `
+        <p class="text-slate-500 text-lg">Aún no hay ningún producto en el carrito</p>
+        <a href="index.html" class="button button-secondary mt-6 inline-block">Ver productos</a>
+    `;
 }
 
 function buildCartContent(cart) {
@@ -74,6 +97,8 @@ function removeFromCart(productoId, talla, color) {
 function removeAllFromCart() {
     cart = [];
     saveCart(JSON.stringify(cart));
+    document.getElementById('checkout').style.display = '';
+    document.getElementById('clear_cart').style.display = '';
     renderCart();
 }
 

@@ -82,11 +82,35 @@ function saveOrderToLocalStorage(order) {
     localStorage.removeItem('comanda_enviada');
 }
 
-function checkout() {
+const modal = document.querySelector("#formPopup");
+const btnCheckout = document.getElementById('checkout');
+const btnCancelar = document.querySelector("#btnCancelar");
+const formulario = document.querySelector("#formulario-envio");
+
+btnCheckout.addEventListener('click', () => {
     if (cart.length === 0) {
         alert("El carrito está vacío. Agrega productos antes de finalizar la compra.");
         return;
     }
+    modal.showModal();
+});
+
+btnCancelar.addEventListener("click", () => {
+    modal.close();
+});
+
+formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const datos = new FormData(formulario);
+    console.log("Nombre:", datos.get("nombre"));
+    console.log("Email:", datos.get("email"));
+    modal.close();
+    formulario.reset();
+    checkout();
+});
+
+
+function checkout() {
     saveOrderToLocalStorage(cart);
     alert("¡Compra finalizada! Gracias por tu pedido.");
     window.location.href = "tiquet.html";
@@ -94,20 +118,24 @@ function checkout() {
 }
 
 async function pushTiquet() {
-  try {
-    const response = await fetch("http://localhost:3001/comandas", {
-        method: "POST",
-        body: JSON.stringify({ items: cart }),
-        headers: {
-            "Content-Type": "application/json"
+    try {
+        const data = new FormData(formulario);
+        const response = await fetch("http://localhost:3001/comandas", {
+            method: "POST",
+            body: JSON.stringify({ 
+                client: [data.get("nombre"), data.get("email")],
+                items: cart
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Error en la petición de tiquet ${response.status}`);
         }
-    });
-    if (!response.ok) {
-      throw new Error(`Error en la petición de tiquet ${response.status}`);
+        const resultado = await response.json();
+        console.log('Respuesta de la API:', resultado);
+    } catch (error) {
+        console.error('Error al enviar los datos:', error);
     }
-    const resultado = await response.json();
-    console.log('Respuesta de la API:', resultado);
-  } catch (error) {
-    console.error('Error al enviar los datos:', error);
-  }
 }

@@ -8,7 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -17,7 +19,9 @@
         <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-50">
             <div class="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-sm font-semibold text-slate-700">T</div>
+                    <div
+                        class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-sm font-semibold text-slate-700">
+                        T</div>
                     <div>
                         <p class="text-xs uppercase tracking-[0.35em] text-slate-400">TeeLab</p>
                         <h1 class="text-2xl font-serif tracking-tight">Tu carrito</h1>
@@ -46,16 +50,35 @@
                         <p id="total_price" class="text-2xl font-serif">Precio total: 0.00€</p>
                     </div>
                     <div class="mt-8 grid gap-4">
-                        <button type="button" id="checkout" onclick="checkout()" class="button w-full">Finalizar compra</button>
-                        <button type="button" id="clear_cart" onclick="removeAllFromCart()" class="button button-secondary w-full">Vaciar carrito</button>
+                        <button type="button" id="checkout" class="button w-full">Finalizar compra</button>
+                        <button type="button" id="clear_cart" onclick="removeAllFromCart()"
+                            class="button button-secondary w-full">Vaciar carrito</button>
                     </div>
                 </aside>
             </div>
         </main>
     </div>
 
+    <dialog id="formPopup">
+        <form id="formulario-envio" method="dialog" class="p-6 rounded-lg border border-slate-200 bg-white shadow-lg w-full max-w-md">
+            <h2>Envio</h2>
+            <p>Introduce tus datos para continuar.</p>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="correo@ejemplo.com">
+
+            <div class="botones">
+                <button type="button" id="btnCancelar" class="button">Cancelar</button>
+                <button type="submit" class="button button-secondary">Enviar datos</button>
+            </div>
+        </form>
+    </dialog>
+
     <script src="js/cart-utils.js"></script>
-    <script src="js/cart.js"></script>
+    <script src="js/cart.js" defer></script>
 </body>
 
 </html>

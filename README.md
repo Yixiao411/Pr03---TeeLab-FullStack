@@ -4,7 +4,7 @@ Tienda online de camisetas exclusivas con estilo moderno y sofisticado.
 
 ## Tecnologias
 
-- **Frontend**: HTML5, CSS (Tailwind CSS, Fuentes Google), JavaScript vanilla
+- **Frontend**: HTML5, CSS (Tailwind CSS, Fuentes Google), JavaScript
 - **Backend**: Node.js con Express.js
 - **Testing**: Jest con Supertest
 
@@ -15,7 +15,8 @@ Pr03---TeeLab-FullStack/
 ├── frontend/               # Interfaz de usuario
 │   ├── index.html         # Pagina principal del catalogo
 │   ├── cart.html          # Pagina del carrito
-│   ├── tiquet.html        # Pagina de confirmacion
+│   ├── tiquet.html        # Historial de pedidos
+│   ├── tiquetDetail.html  # Detalle de un pedido
 │   ├── css/style.css      # Estilos personalizados
 │   ├── js/                # Logica frontend
 │   │   ├── index.js       # Catalogo y filtros
@@ -69,3 +70,5 @@ npm test         # Ejecutar pruebas
 - Carrito de compras persistente
 - Gestion de comandas (pedidos)
 - Generacion de tickets de compra
+- Historial de pedidos con navegacion por URL
+- Pagina de detalle de pedido con parametro ID

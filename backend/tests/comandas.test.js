@@ -187,6 +187,87 @@ describe('Comandas', () => {
             expect(getResponse.body).toHaveProperty('id', comandaId);
             expect(getResponse.body).toHaveProperty('cliente');
             expect(getResponse.body).toHaveProperty('items');
+            expect(getResponse.body).toHaveProperty('fecha');
+            expect(getResponse.body).toHaveProperty('estado');
+            expect(getResponse.body).toHaveProperty('total');
+        });
+
+        test('Incluye detalles de camiseta en items', async () => {
+            const comandaData = {
+                cliente: {
+                    nombre: 'Test User',
+                    email: 'test@gmail.com'
+                },
+                direccion: 'Calle Test',
+                items: [
+                    {
+                        camisetaId: 'TSH01',
+                        talla: 'M',
+                        color: 'negro',
+                        cantidad: 2
+                    }
+                ]
+            };
+
+            const createResponse = await request(app)
+                .post('/comandas')
+                .send(comandaData)
+                .expect(201);
+
+            const comandaId = createResponse.body.tiquet.id;
+
+            const getResponse = await request(app)
+                .get(`/comandas/${comandaId}`)
+                .expect(200);
+
+            expect(getResponse.body.items[0]).toHaveProperty('camiseta');
+            expect(getResponse.body.items[0].camiseta).toHaveProperty('nombre');
+            expect(getResponse.body.items[0].camiseta).toHaveProperty('precio');
+        });
+    });
+
+    describe('DELETE /comandas/:id', () => {
+        test('Eliminar comanda existente', async () => {
+            const comandaData = {
+                cliente: {
+                    nombre: 'Delete Test',
+                    email: 'delete@gmail.com'
+                },
+                direccion: 'Calle Delete',
+                items: [
+                    {
+                        camisetaId: 'TSH01',
+                        talla: 'S',
+                        color: 'blanco',
+                        cantidad: 1
+                    }
+                ]
+            };
+
+            const createResponse = await request(app)
+                .post('/comandas')
+                .send(comandaData)
+                .expect(201);
+
+            const comandaId = createResponse.body.tiquet.id;
+
+            const deleteResponse = await request(app)
+                .delete(`/comandas/${comandaId}`)
+                .expect(200);
+
+            expect(deleteResponse.body).toHaveProperty('message', 'Deleted');
+
+            await request(app)
+                .get(`/comandas/${comandaId}`)
+                .expect(404);
+        });
+
+        test('Retornar 404 al eliminar comanda inexistente', async () => {
+            const response = await request(app)
+                .delete('/comandas/NOEXISTE')
+                .expect(404);
+
+            expect(response.body).toHaveProperty('message', 'Not Found');
         });
     });
 
@@ -242,6 +323,35 @@ describe('Comandas', () => {
 
             expect(Array.isArray(response.body)).toBe(true);
             expect(response.body.length).toBeGreaterThanOrEqual(2);
+        });
+
+        test('Ordena comandas por fecha (mas reciente primero)', async () => {
+            const comanda1 = {
+                cliente: { nombre: 'Fecha 1', email: 'f1@gmail.com' },
+                direccion: 'Dir 1',
+                items: [{ camisetaId: 'TSH01', talla: 'M', color: 'negro', cantidad: 1 }]
+            };
+
+            const comanda2 = {
+                cliente: { nombre: 'Fecha 2', email: 'f2@gmail.com' },
+                direccion: 'Dir 2',
+                items: [{ camisetaId: 'TSH02', talla: 'L', color: 'gris', cantidad: 1 }]
+            };
+
+            await request(app).post('/comandas').send(comanda1);
+            await new Promise(r => setTimeout(r, 10));
+            await request(app).post('/comandas').send(comanda2);
+
+            const response = await request(app)
+                .get('/comandas')
+                .expect(200);
+
+            const comandas = response.body;
+            for (let i = 0; i < comandas.length - 1; i++) {
+                const fechaActual = new Date(comandas[i].fecha);
+                const fechaSiguiente = new Date(comandas[i + 1].fecha);
+                expect(fechaActual.getTime()).toBeGreaterThanOrEqual(fechaSiguiente.getTime());
+            }
         });
     });
 });

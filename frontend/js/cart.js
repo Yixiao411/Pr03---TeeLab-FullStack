@@ -143,7 +143,7 @@ formulario.addEventListener("submit", (e) => {
 function checkout() {
     saveOrderToLocalStorage(cart);
     alert("¡Compra finalizada! Gracias por tu pedido.");
-    window.location.href = "tiquet.html";
+    window.location.href = "tiquetDetail.html";
     removeAllFromCart();
 }
 

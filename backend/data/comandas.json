@@ -1,13 +1,13 @@
 [
   {
     "id": "ORD-0001",
-    "fecha": "2026-04-11T13:50:08.061Z",
+    "fecha": "2026-04-11T14:56:31.530Z",
     "estado": "recibida",
     "cliente": {
-      "nombre": "1111",
-      "email": "www.yixiaoxu@gmail.com"
+      "nombre": "LAb",
+      "email": "pruebas@mail.com"
     },
-    "direccion": "aa",
+    "direccion": "08088",
     "items": [
       {
         "camisetaId": "TSH02",
@@ -17,74 +17,35 @@
         "cantidad": 1,
         "precioUnitario": 21.5,
         "subtotal": 21.5
-      }
-    ],
-    "total": 21.5
-  },
-  {
-    "id": "ORD-0002",
-    "fecha": "2026-04-11T14:06:37.077Z",
-    "estado": "recibida",
-    "cliente": {
-      "nombre": "1111",
-      "email": "www.yixiaoxu@gmail.com"
-    },
-    "direccion": "aa",
-    "items": [
+      },
       {
-        "camisetaId": "TSH01",
-        "nombre": "MACACARENA",
-        "talla": "S",
-        "color": "blanco",
-        "cantidad": 1,
-        "precioUnitario": 19.95,
-        "subtotal": 19.95
-      }
-    ],
-    "total": 19.95
-  },
-  {
-    "id": "ORD-0003",
-    "fecha": "2026-04-11T14:25:54.542Z",
-    "estado": "recibida",
-    "cliente": {
-      "nombre": "1111",
-      "email": "www.yixiaoxu@gmail.com"
-    },
-    "direccion": "aa",
-    "items": [
+        "camisetaId": "TSH03",
+        "nombre": "RESERVOIR INVADERS",
+        "talla": "M",
+        "color": "azul",
+        "cantidad": 2,
+        "precioUnitario": 22.9,
+        "subtotal": 45.8
+      },
       {
         "camisetaId": "TSH02",
         "nombre": "NINETIES MODE",
         "talla": "S",
-        "color": "gris",
+        "color": "negro",
         "cantidad": 1,
         "precioUnitario": 21.5,
         "subtotal": 21.5
-      }
-    ],
-    "total": 21.5
-  },
-  {
-    "id": "ORD-0004",
-    "fecha": "2026-04-11T14:33:28.946Z",
-    "estado": "recibida",
-    "cliente": {
-      "nombre": "1111",
-      "email": "www.yixiaoxu@gmail.com"
-    },
-    "direccion": "aa",
-    "items": [
+      },
       {
-        "camisetaId": "TSH01",
-        "nombre": "MACACARENA",
-        "talla": "S",
-        "color": "blanco",
+        "camisetaId": "TSH04",
+        "nombre": "VITRUVIAN CODE",
+        "talla": "XL",
+        "color": "negro",
         "cantidad": 1,
-        "precioUnitario": 19.95,
-        "subtotal": 19.95
+        "precioUnitario": 24,
+        "subtotal": 24
       }
     ],
-    "total": 19.95
+    "total": 112.8
   }
 ]

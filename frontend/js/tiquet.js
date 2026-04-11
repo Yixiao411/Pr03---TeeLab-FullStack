@@ -3,9 +3,19 @@ const LOCAL_STORAGE_SENT_FLAG = 'comanda_enviada';
 const LOCAL_STORAGE_COMANDA_ID = 'comanda_id';
 
 function initTiquet() {
-    const comanda = loadComanda();
     const section = document.getElementById('tiquet_section');
+    const urlParams = new URLSearchParams(window.location.search);
+    const comandaIdFromUrl = urlParams.get('id');
+    const comandaIdFromStorage = localStorage.getItem('comanda_id');
 
+    const comandaId = comandaIdFromUrl || comandaIdFromStorage;
+
+    if (comandaId) {
+        fetchComandaById(comandaId, section);
+        return;
+    }
+
+    const comanda = loadComanda();
     if (!comanda || comanda.length === 0) {
         showNoOrderMessage(section);
         return;
@@ -16,6 +26,20 @@ function initTiquet() {
         handleExistingOrder(section);
     } else {
         handleNewOrder(comanda, section);
+    }
+}
+
+async function fetchComandaById(id, section) {
+    try {
+        const response = await fetch(`http://localhost:3001/comandas/${id}`);
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        const comanda = await response.json();
+        renderTiquet(comanda);
+    } catch (error) {
+        console.error('Error fetching comanda:', error);
+        showErrorMessage(section);
     }
 }
 

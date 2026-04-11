@@ -217,6 +217,25 @@ article.producto:hover img {
     gap: 0.75rem;
 }
 
+a.product-card {
+    display: block;
+    padding: 1.5rem 2rem;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.25s ease;
+}
+
+a.product-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(17, 24, 39, 0.12);
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.1);
+}
+
+a.product-card .producto-body {
+    text-decoration: none;
+}
+
 .producto-body h3 {
     margin: 0;
     font-size: 1.3rem;

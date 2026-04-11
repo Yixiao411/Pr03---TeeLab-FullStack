@@ -20,5 +20,71 @@
       }
     ],
     "total": 21.5
+  },
+  {
+    "id": "ORD-0002",
+    "fecha": "2026-04-11T14:06:37.077Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "1111",
+      "email": "www.yixiaoxu@gmail.com"
+    },
+    "direccion": "aa",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "S",
+        "color": "blanco",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
+  },
+  {
+    "id": "ORD-0003",
+    "fecha": "2026-04-11T14:25:54.542Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "1111",
+      "email": "www.yixiaoxu@gmail.com"
+    },
+    "direccion": "aa",
+    "items": [
+      {
+        "camisetaId": "TSH02",
+        "nombre": "NINETIES MODE",
+        "talla": "S",
+        "color": "gris",
+        "cantidad": 1,
+        "precioUnitario": 21.5,
+        "subtotal": 21.5
+      }
+    ],
+    "total": 21.5
+  },
+  {
+    "id": "ORD-0004",
+    "fecha": "2026-04-11T14:33:28.946Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "1111",
+      "email": "www.yixiaoxu@gmail.com"
+    },
+    "direccion": "aa",
+    "items": [
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "S",
+        "color": "blanco",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 19.95
   }
 ]

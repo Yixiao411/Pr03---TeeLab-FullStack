@@ -2,6 +2,8 @@
 
 Tienda online de camisetas exclusivas con estilo moderno y sofisticado.
 
+Video demostrativo: https://drive.google.com/file/d/1obQ5PCWXb6ct7_gEnqD_HadcU0wCUaIc/view?usp=sharing
+
 ## Tecnologias
 
 - **Frontend**: HTML5, CSS (Tailwind CSS, Fuentes Google), JavaScript

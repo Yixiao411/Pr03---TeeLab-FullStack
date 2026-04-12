@@ -1,37 +1,24 @@
-function loadCart(name = "cart") {
-    const cookieValue = document.cookie
-        .split("; ")
-        .find(c => c.startsWith(name + '='))
-        ?.split('=')[1] ?? null;
-
-    return cookieValue ? decodeURIComponent(cookieValue) : null;
+function applyCartLayout(cartGrid, cartSummary) {
+  cartGrid.className = 'grid gap-8 lg:grid-cols-[1.4fr_0.8fr] items-start';
+  cartSummary.className = 'rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm';
 }
 
 function renderCart() {
-    const cartData = loadCart();
-    const contenedor = document.getElementById('cart_section');
-    const cartGrid = document.getElementById('cart_grid');
-    const cartSummary = document.getElementById('cart_summary');
+  const cartData = loadCart();  // ya devuelve array, sin JSON.parse
+  const contenedor = document.getElementById('cart_section');
+  const cartGrid = document.getElementById('cart_grid');
+  const cartSummary = document.getElementById('cart_summary');
 
-    if (!cartData) {
-        console.log('No hay carrito guardado, iniciando uno nuevo.');
-        showEmptyCart(cartGrid, cartSummary);
-        return;
-    }
+  if (!cartData || cartData.length === 0) {
+    showEmptyCart(cartGrid, cartSummary);
+    return setCartTotals(0, 0);
+  }
 
-    cart = JSON.parse(cartData);
-
-    if (cart.length === 0) {
-        showEmptyCart(cartGrid, cartSummary);
-        setCartTotals(0, 0);
-        return;
-    }
-
-    const { countItems, totalPrice, inner } = buildCartContent(cart);
-    setCartTotals(countItems, totalPrice);
-    contenedor.innerHTML = inner;
-    cartGrid.className = 'grid gap-8 lg:grid-cols-[1.4fr_0.8fr] items-start';
-    cartSummary.className = 'rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm';
+  cart = cartData;
+  const { countItems, totalPrice, inner } = buildCartContent(cart);
+  setCartTotals(countItems, totalPrice);
+  contenedor.innerHTML = inner;
+  applyCartLayout(cartGrid, cartSummary);
 }
 
 function showEmptyCart(cartGrid, cartSummary) {
@@ -60,27 +47,31 @@ function buildCartContent(cart) {
     return { countItems, totalPrice, inner };
 }
 
+function buildCartItemDetails(p) {
+  return `
+    <div class="producto-meta-grid">
+      <div class="item-details">
+        <span>Talla: ${p.talla}</span>
+        <span>Color: ${p.color}</span>
+        <span>Cantidad: ${p.cantidad}</span>
+      </div>
+      <div class="price-info">
+        <span class="producto-price">Precio: $${p.precio.toFixed(2)}</span>
+        <span class="producto-price-subtotal">Total: $${(p.precio * p.cantidad).toFixed(2)}</span>
+      </div>
+    </div>`;
+}
+
 function buildCartItemHTML(p) {
-    return `
-        <article class="cart-item">
-            <img src="${p.imagen || ''}" alt="${p.nombre}" width="150">
-            <div class="producto-body">
-                <h3>${p.nombre}</h3>
-                <div class="producto-meta-grid">
-                    <div class="item-details">
-                        <span>Talla: ${p.talla}</span>
-                        <span>Color: ${p.color}</span>
-                        <span>Cantidad: ${p.cantidad}</span>
-                    </div>
-                    <div class="price-info">
-                        <span class="producto-price">Precio: $${p.precio.toFixed(2)}</span>
-                        <span class="producto-price-subtotal">Total: $${(p.precio * p.cantidad).toFixed(2)}</span>
-                    </div>
-                </div>
-                <button type="button" onclick="removeFromCart('${p.productoId}', '${p.talla}', '${p.color}')" class="button button-secondary">Eliminar</button>
-            </div>
-        </article>
-    `;
+  return `
+    <article class="cart-item">
+      <img src="${p.imagen || ''}" alt="${p.nombre}" width="150">
+      <div class="producto-body">
+        <h3>${p.nombre}</h3>
+        ${buildCartItemDetails(p)}
+        <button type="button" onclick="removeFromCart('${p.productoId}', '${p.talla}', '${p.color}')" class="button button-secondary">Eliminar</button>
+      </div>
+    </article>`;
 }
 
 function setCartTotals(countItems, totalPrice) {
@@ -147,25 +138,25 @@ function checkout() {
     removeAllFromCart();
 }
 
+function buildTiquetPayload(formulario) {
+  const data = new FormData(formulario);
+  return {
+    client: [data.get("nombre"), data.get("email")],
+    items: cart
+  };
+}
+
 async function pushTiquet() {
-    try {
-        const data = new FormData(formulario);
-        const response = await fetch("http://localhost:3001/comandas", {
-            method: "POST",
-            body: JSON.stringify({ 
-                client: [data.get("nombre"), data.get("email")],
-                items: cart
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        if (!response.ok) {
-            throw new Error(`Error en la petición de tiquet ${response.status}`);
-        }
-        const resultado = await response.json();
-        console.log('Respuesta de la API:', resultado);
-    } catch (error) {
-        console.error('Error al enviar los datos:', error);
-    }
+  try {
+    const response = await fetch("http://localhost:3001/comandas", {
+      method: "POST",
+      body: JSON.stringify(buildTiquetPayload(formulario)),
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!response.ok) throw new Error(`Error en la petición de tiquet ${response.status}`);
+    const resultado = await response.json();
+    console.log('Respuesta de la API:', resultado);
+  } catch (error) {
+    console.error('Error al enviar los datos:', error);
+  }
 }

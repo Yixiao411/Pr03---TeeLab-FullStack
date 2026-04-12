@@ -3,30 +3,17 @@ const LOCAL_STORAGE_SENT_FLAG = 'comanda_enviada';
 const LOCAL_STORAGE_COMANDA_ID = 'comanda_id';
 
 function initTiquet() {
-    const section = document.getElementById('tiquet_section');
-    const urlParams = new URLSearchParams(window.location.search);
-    const comandaIdFromUrl = urlParams.get('id');
-    const comandaIdFromStorage = localStorage.getItem('comanda_id');
+  const section = document.getElementById('tiquet_section');
+  const comandaId = new URLSearchParams(window.location.search).get('id') 
+                    || localStorage.getItem('comanda_id');
 
-    const comandaId = comandaIdFromUrl || comandaIdFromStorage;
+  if (comandaId) return fetchComandaById(comandaId, section);
 
-    if (comandaId) {
-        fetchComandaById(comandaId, section);
-        return;
-    }
+  const comanda = loadComanda();
+  if (!comanda || comanda.length === 0) return showNoOrderMessage(section);
 
-    const comanda = loadComanda();
-    if (!comanda || comanda.length === 0) {
-        showNoOrderMessage(section);
-        return;
-    }
-
-    const sent = localStorage.getItem(LOCAL_STORAGE_SENT_FLAG);
-    if (sent === 'true') {
-        handleExistingOrder(section);
-    } else {
-        handleNewOrder(comanda, section);
-    }
+  const sent = localStorage.getItem(LOCAL_STORAGE_SENT_FLAG) === 'true';
+  sent ? handleExistingOrder(section) : handleNewOrder(comanda, section);
 }
 
 async function fetchComandaById(id, section) {
@@ -43,42 +30,29 @@ async function fetchComandaById(id, section) {
     }
 }
 
-function handleExistingOrder(section) {
-    const comandaId = localStorage.getItem(LOCAL_STORAGE_COMANDA_ID);
-    if (!comandaId) {
-        showNoIdMessage(section);
-        return;
-    }
+async function handleExistingOrder(section) {
+  const comandaId = localStorage.getItem(LOCAL_STORAGE_COMANDA_ID);
+  if (!comandaId) return showNoIdMessage(section);
 
-    fetchComanda(comandaId).then(comandaData => {
-        if (!comandaData) {
-            showErrorMessage(section);
-            return;
-        }
-        renderTiquet(comandaData);
-    }).catch(error => {
-        console.error('Error fetching comanda:', error);
-        showErrorMessage(section);
-    });
+  try {
+    const comandaData = await fetchComanda(comandaId);
+    comandaData ? renderTiquet(comandaData) : showErrorMessage(section);
+  } catch (error) {
+    console.error('Error fetching comanda:', error);
+    showErrorMessage(section);
+  }
 }
 
-function handleNewOrder(comanda, section) {
-    sendComandaIfNeeded(comanda).then(() => {
-        const comandaId = localStorage.getItem(LOCAL_STORAGE_COMANDA_ID);
-        if (comandaId) {
-            fetchComanda(comandaId).then(comandaData => {
-                renderTiquet(comandaData);
-            }).catch(error => {
-                console.error('Error fetching comanda after send:', error);
-                renderTiquetFromLocal(comanda);
-            });
-        } else {
-            renderTiquetFromLocal(comanda);
-        }
-    }).catch(error => {
-        console.error('Error sending comanda:', error);
-        renderTiquetFromLocal(comanda);
-    });
+async function handleNewOrder(comanda, section) {
+  try {
+    await sendComandaIfNeeded(comanda);
+    const comandaId = localStorage.getItem(LOCAL_STORAGE_COMANDA_ID);
+    const comandaData = comandaId && await fetchComanda(comandaId);
+    comandaData ? renderTiquet(comandaData) : renderTiquetFromLocal(comanda);
+  } catch (error) {
+    console.error('Error in handleNewOrder:', error);
+    renderTiquetFromLocal(comanda);
+  }
 }
 
 function showNoOrderMessage(section) {
@@ -124,96 +98,89 @@ async function fetchComanda(id) {
     }
 }
 
-function renderTiquetFromLocal(comanda) {
-    const section = document.getElementById('tiquet_section');
-    let totalItems = 0;
-    let totalPrice = 0;
-    let inner = '<h2>Tu tiquet (local)</h2>';
-
-    inner += renderLocalItems(comanda, (item) => {
-        const itemTotal = item.precio * item.cantidad;
-        totalItems += item.cantidad;
-        totalPrice += itemTotal;
-    });
-
-    inner += `
-        <p>Total de articulos: ${totalItems}</p>
-        <p>Precio total: $${totalPrice.toFixed(2)}</p>
-    `;
-
-    section.innerHTML = inner;
-    appendBackButton(section);
+function calcTotals(comanda) {
+  return comanda.reduce((acc, item) => ({
+    items: acc.items + item.cantidad,
+    price: acc.price + item.precio * item.cantidad
+  }), { items: 0, price: 0 });
 }
 
-function renderLocalItems(comanda, callback) {
-    let html = '';
-    comanda.forEach(item => {
-        callback(item);
-        html += `
-            <article class="producto product-card">
-                <div class="producto-body">
-                    <h3>${item.nombre}</h3>
-                    <div class="producto-meta-grid">
-                        <span>Talla: ${item.talla}</span>
-                        <span>Color: ${item.color}</span>
-                        <span>Cantidad: ${item.cantidad}</span>
-                    </div>
-                    <p class="producto-price">Precio unitario: $${item.precio.toFixed(2)}</p>
-                    <p class="producto-price-subtotal">Subtotal: $${(item.precio * item.cantidad).toFixed(2)}</p>
-                </div>
-            </article>
-        `;
-    });
-    return html;
+function renderTiquetFromLocal(comanda) {
+  const section = document.getElementById('tiquet_section');
+  const { items, price } = calcTotals(comanda);
+
+  section.innerHTML = `
+    <h2>Tu tiquet (local)</h2>
+    ${renderLocalItems(comanda)}
+    <p>Total de articulos: ${items}</p>
+    <p>Precio total: $${price.toFixed(2)}</p>
+  `;
+  appendBackButton(section);
+}
+
+function renderLocalItem(item) {
+  return `
+    <article class="producto product-card">
+      <div class="producto-body">
+        <h3>${item.nombre}</h3>
+        <div class="producto-meta-grid">
+          <span>Talla: ${item.talla}</span>
+          <span>Color: ${item.color}</span>
+          <span>Cantidad: ${item.cantidad}</span>
+        </div>
+        <p class="producto-price">Precio unitario: $${item.precio.toFixed(2)}</p>
+        <p class="producto-price-subtotal">Subtotal: $${(item.precio * item.cantidad).toFixed(2)}</p>
+      </div>
+    </article>`;
+}
+
+function renderLocalItems(comanda) {
+  return comanda.map(renderLocalItem).join('');
+}
+
+function renderTiquetHeader(comanda) {
+  const fecha = new Date(comanda.fecha).toLocaleDateString('es-ES');
+  return `
+    <div class="tiquet-header">
+      <p><strong>ID Pedido:</strong> ${comanda.id}</p>
+      <p><strong>Fecha:</strong> ${fecha}</p>
+      <p><strong>Estado:</strong> ${comanda.estado}</p>
+    </div>
+    <h2>Líneas de pedido</h2>`;
 }
 
 function renderTiquet(comanda) {
-    const section = document.getElementById('tiquet_section');
-    const fecha = new Date(comanda.fecha).toLocaleDateString('es-ES');
-    let totalItems = 0;
+  const section = document.getElementById('tiquet_section');
+  const totalItems = comanda.items.reduce((sum, item) => sum + item.cantidad, 0);
 
-    let inner = `
-        <div class="tiquet-header">
-            <p><strong>ID Pedido:</strong> ${comanda.id}</p>
-            <p><strong>Fecha:</strong> ${fecha}</p>
-            <p><strong>Estado:</strong> ${comanda.estado}</p>
-        </div>
-        <h2>Líneas de pedido</h2>
-    `;
-
-    inner += renderOrderItems(comanda.items, (item) => totalItems += item.cantidad);
-
-    inner += `
-        <div class="tiquet-total">
-            <p>Total de artículos: ${totalItems}</p>
-            <p>Precio total: $${comanda.total.toFixed(2)}</p>
-        </div>
-    `;
-
-    section.innerHTML = inner;
-    appendBackButton(section);
+  section.innerHTML = `
+    ${renderTiquetHeader(comanda)}
+    ${renderOrderItems(comanda.items)}
+    <div class="tiquet-total">
+      <p>Total de artículos: ${totalItems}</p>
+      <p>Precio total: $${comanda.total.toFixed(2)}</p>
+    </div>`;
+  appendBackButton(section);
 }
 
-function renderOrderItems(items, callback) {
-    let html = '';
-    items.forEach(item => {
-        callback(item);
-        html += `
-            <article class="producto product-card">
-                <div class="producto-body">
-                    <h3>${item.nombre}</h3>
-                    <div class="producto-meta-grid">
-                        <span>Talla: ${item.talla}</span>
-                        <span>Color: ${item.color}</span>
-                        <span>Cantidad: ${item.cantidad}</span>
-                    </div>
-                    <p class="producto-price">Precio unitario: $${item.precioUnitario.toFixed(2)}</p>
-                    <p class="producto-price-subtotal">Subtotal: $${item.subtotal.toFixed(2)}</p>
-                </div>
-            </article>
-        `;
-    });
-    return html;
+function renderOrderItem(item) {
+  return `
+    <article class="producto product-card">
+      <div class="producto-body">
+        <h3>${item.nombre}</h3>
+        <div class="producto-meta-grid">
+          <span>Talla: ${item.talla}</span>
+          <span>Color: ${item.color}</span>
+          <span>Cantidad: ${item.cantidad}</span>
+        </div>
+        <p class="producto-price">Precio unitario: $${item.precioUnitario.toFixed(2)}</p>
+        <p class="producto-price-subtotal">Subtotal: $${item.subtotal.toFixed(2)}</p>
+      </div>
+    </article>`;
+}
+
+function renderOrderItems(items) {
+  return items.map(renderOrderItem).join('');
 }
 
 function appendBackButton(container) {
@@ -257,25 +224,20 @@ function buildOrderPayload(comanda) {
     };
 }
 
+const DEFAULT_CLIENTE = {
+  nombre: 'Cliente TeeLab',
+  email: 'cliente@teelab.local',
+  direccion: 'Dirección de entrega TeeLab'
+};
+
 function loadClienteData() {
+  try {
     const stored = localStorage.getItem('cliente');
-    if (!stored) {
-        return {
-            nombre: 'Cliente TeeLab',
-            email: 'cliente@teelab.local',
-            direccion: 'Dirección de entrega TeeLab'
-        };
-    }
-    try {
-        return JSON.parse(stored);
-    } catch (error) {
-        console.error('Error al parsear datos del cliente:', error);
-        return {
-            nombre: 'Cliente TeeLab',
-            email: 'cliente@teelab.local',
-            direccion: 'Dirección de entrega TeeLab'
-        };
-    }
+    return stored ? JSON.parse(stored) : DEFAULT_CLIENTE;
+  } catch (error) {
+    console.error('Error al parsear datos del cliente:', error);
+    return DEFAULT_CLIENTE;
+  }
 }
 
 function sendOrderRequest(payload) {

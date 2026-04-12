@@ -1,0 +1,55 @@
+[
+  {
+    "id": "ORD-0001",
+    "fecha": "2026-04-12T19:59:51.722Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "LAb",
+      "email": "pruebas@mail.com"
+    },
+    "direccion": "08088",
+    "items": [
+      {
+        "camisetaId": "TSH03",
+        "nombre": "RESERVOIR INVADERS",
+        "talla": "M",
+        "color": "azul",
+        "cantidad": 3,
+        "precioUnitario": 22.9,
+        "subtotal": 68.69999999999999
+      },
+      {
+        "camisetaId": "TSH01",
+        "nombre": "MACACARENA",
+        "talla": "S",
+        "color": "blanco",
+        "cantidad": 1,
+        "precioUnitario": 19.95,
+        "subtotal": 19.95
+      }
+    ],
+    "total": 88.64999999999999
+  },
+  {
+    "id": "ORD-0002",
+    "fecha": "2026-04-12T20:00:39.750Z",
+    "estado": "recibida",
+    "cliente": {
+      "nombre": "LAb",
+      "email": "pruebas@mail.com"
+    },
+    "direccion": "08088",
+    "items": [
+      {
+        "camisetaId": "TSH02",
+        "nombre": "NINETIES MODE",
+        "talla": "S",
+        "color": "gris",
+        "cantidad": 2,
+        "precioUnitario": 21.5,
+        "subtotal": 43
+      }
+    ],
+    "total": 43
+  }
+]
